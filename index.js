@@ -187,7 +187,6 @@ if (args.v || args.version) {
 
     } else if (args.init) return initApiAlias();
     else if (args.layer) {  //WE ARE IN THE LAMBDA LAYER UPLOAD
-      let stack;
 
       const package_json = JSON.parse(fs.readFileSync(process.cwd() + '/package.json', 'utf-8'));
 
@@ -202,15 +201,6 @@ if (args.v || args.version) {
         aws_access_key_id = tmp_accounts[0].aws_access_key_id;
         aws_secret_access_key = tmp_accounts[0].aws_secret_access_key;
       }
-
-
-      const aws_config = {
-        accessKeyId: aws_access_key_id,
-        secretAccessKey: aws_secret_access_key,
-        region: account.match(/^(.+):/)[1]
-      };
-
-      const lambda = new AWS.Lambda(aws_config);
 
 
     }
