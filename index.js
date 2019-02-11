@@ -48,7 +48,7 @@ const args = minimist(process.argv.slice(2), {
 const localPath = 'localLambdas/';
 
 if (args.v || args.version) {
-  exec('npm show uplambda version', function (err, stdout, stderr) {
+  exec('npm show @deliverymanager/uplambda version', function (err, stdout, stderr) {
     if (err) throw err;
     else {
       if (stderr) console.log(stderr);
