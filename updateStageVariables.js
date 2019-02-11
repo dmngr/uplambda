@@ -25,5 +25,9 @@ module.exports = function (functionName, name, api_info, account, aws_config) {
     .then(() => {
       // console.log('res:', res);
       return Promise.resolve();
+    })
+    .catch(err => {
+      console.log("err", err);
+      return Promise.reject(err);
     });
 };
