@@ -5,21 +5,26 @@ const AWS = require('aws-sdk');
 const _ = require('lodash');
 
 module.exports = (functionName, name, api_info, account, aws_config) => {
+
+  console.log("checkLambdaPolicy for ", functionName, name);
+  console.log("apiResourceName ", api_info.resourceName);
   const lambda = new AWS.Lambda(aws_config);
 
   // for dev permissions
   const apiId = api_info.apiId || '*';
-  const apiResourceName = api_info.resourceName || functionName.toLowerCase();
+  const apiResourceName = api_info.resourceName || functionName;
   const apiMethod = api_info.method || "POST";
 
   return lambda.getPolicy({
       FunctionName: functionName,
       Qualifier: name
     }).promise()
-    .catch(err => err.code === 'ResourceNotFoundException' ? Promise.resolve() : Promise.reject(err))
+    .catch(err => {
+      console.log("checkLambdaPolicy err", err);
+      err.code === 'ResourceNotFoundException' ? Promise.resolve() : Promise.reject(err);
+    })
     .then(res => {
       let found = false;
-
       if (res) {
         const policy = JSON.parse(res.Policy);
 

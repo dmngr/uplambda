@@ -16,12 +16,13 @@ const AWS = require('aws-sdk');
  * @param  {object} apiInfo  Api info found in package json
  * @return {Promise}
  */
-module.exports = function(functionName, name, api_info, account, aws_config) {
+module.exports = function (functionName, name, api_info, account, aws_config) {
+  console.log("updateAPIGWPolicy");
   const lambda = new AWS.Lambda(aws_config);
 
   // for dev permissions
   const apiId = api_info.apiId || '*';
-  const apiResourceName = api_info.resourceName || functionName.toLowerCase();
+  const apiResourceName = api_info.resourceName || functionName;
   const apiMethod = api_info.method || "POST";
   const statementId = Date.now().toString();
 
