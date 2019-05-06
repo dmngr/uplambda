@@ -328,7 +328,7 @@ if (args.v || args.version) {
             // console.log('localPath: ', localPath);
             // console.log('functionName:', functionName);
             return new Promise(function (resolve, reject) {
-              exec(`zip -r ${homedir}/${localPath}/${functionName}.zip . -x *.git*`, {
+              exec(`rm -f ${homedir}/${localPath}/${functionName}.zip; zip -r ${homedir}/${localPath}/${functionName}.zip . -x *.git*`, {
                 maxBuffer: 1e8
               }, function (err, stdout, stderr) {
                 if (err) reject(err);
