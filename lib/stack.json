@@ -40,9 +40,9 @@
         "Role": {
           "Ref": "Role"
         },
-        "Runtime": "nodejs8.10",
-        "Timeout": 10,
-        "MemorySize": 128
+        "Runtime": "nodejs12.x",
+        "Timeout": 30,
+        "MemorySize": 256
       }
     }
   },
