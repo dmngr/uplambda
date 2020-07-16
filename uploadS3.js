@@ -16,11 +16,11 @@ const AWS = require('aws-sdk');
  * @param  {string} name Name of the lambda function and zip file
  * @return {Promise}      S3 upload response message
  */
-module.exports = function(name, zip, alias, info, account, bucket, s3_prefix, aws_config) {
+module.exports = function (name, zip, alias, info, account, bucket, s3_prefix, aws_config) {
   const s3 = new AWS.S3(aws_config);
 
   // console.log('bucket:', bucket);
-  // console.log('s3_prefix:', s3_prefix);
+  console.log('s3_prefix:', s3_prefix);
 
   const params = {
     Bucket: bucket,
