@@ -19,7 +19,7 @@ const AWS = require('aws-sdk');
 module.exports = function (name, zip, alias, info, account, bucket, s3_prefix, aws_config) {
   const s3 = new AWS.S3(aws_config);
 
-  // console.log('bucket:', bucket);
+  console.log('bucket:', bucket);
   console.log('s3_prefix:', s3_prefix);
 
   const params = {
@@ -33,7 +33,7 @@ module.exports = function (name, zip, alias, info, account, bucket, s3_prefix, a
     // console.log('info:', info);
     params.Metadata = {
       alias: alias,
-      apiId: info.apiId,
+      apiId: info.apiId || "*",
       stageNames: info.stageNames.join(':'),
       apiMethod: info.method
     };
