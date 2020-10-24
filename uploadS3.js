@@ -35,7 +35,7 @@ module.exports = function (name, zip, alias, info, account, bucket, s3_prefix, a
       alias: alias,
       apiId: info.apiId || "*",
       stageNames: info.stageNames.join(':'),
-      apiMethod: info.method
+      apiMethod: info.method || "POST"
     };
   }
 

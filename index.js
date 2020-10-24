@@ -400,18 +400,56 @@ if (args.v || args.version) {
 
 
             } else if (args.s3) {
-              console.log(`Uploading ${args.publish ? alias : '$LATEST'} to s3..`);
-              if (!args.publish && !package_json.no_api) return uploadS3(functionName, zip, null, null, account, bucket, s3_prefix, aws_config);
-              else {
-                console.log('info.apiId: ', api_info.apiId);
-                console.log('info.stageNames: ', api_info.stageNames);
-                console.log('info.method:', api_info.method);
 
-                return uploadS3(functionName, zip, alias, api_info, account, bucket, s3_prefix, aws_config);
-              }
+              console.log(`Uploading ${args.publish ? alias : '$LATEST'} to s3..`);
+              return uploadS3(functionName, zip, null, null, account, bucket, s3_prefix, aws_config)
+                .then(() => {
+                  return lambda.updateFunctionCode({
+                    FunctionName: functionName,
+                    Publish: !!args.publish,
+                    S3Bucket: bucket,
+                    S3Key: `${s3_prefix}${functionName}.zip`
+                  }).promise().then(res => {
+                    console.log('Upload done.');
+                    // console.log(res);
+                    const version = res.Version;
+                    console.log(`Version: ${version}`);
+                    console.log(`Publish: ${args.publish}`);
+
+                    if (args.publish) {
+                      if ((!api_info || !api_info.apiId || !api_info.method || !api_info.stageNames || api_info.stageNames.length === 0 || !alias) && !package_json.no_api) return Promise.reject('Invalid api/alias info');
+                      else {
+                        console.log('info.apiId: ', api_info.apiId);
+                        console.log('info.stageNames: ', api_info.stageNames);
+                        console.log('info.method:', api_info.method);
+                        console.log('package_json.no_api:', package_json.no_api);
+
+                        return updateAlias(functionName, alias, version, api_info, account, aws_config)
+                          .then(() => package_json.no_api ? Promise.resolve() : checkLambdaPolicy(functionName, alias, api_info, account, aws_config).then(found => found ? Promise.resolve() : updateAPIGWPolicy(functionName, alias, api_info, account, aws_config)))
+                          .then(() => package_json.no_api ? Promise.resolve() : updateStageVariables(functionName, alias, api_info, account, aws_config))
+                          .then(() => {
+                            console.log(colors.blue('Current Branch/Lambda Alias:'), colors.green(alias));
+                            if (otherBranches.length > 0) {
+                              console.log(colors.blue('Other Branches:'));
+                              otherBranches.forEach(function (branchName) {
+                                if (branchName[0] == branchName[0].toUpperCase()) console.log(colors.yellow(branchName));
+                                else console.log(branchName);
+
+                              });
+                            } else console.log(colors.yellow('No other branches'));
+
+                            return Promise.resolve();
+                          });
+                      }
+                    } else return updateAlias(functionName, 'dev', '$LATEST', api_info, account, aws_config)
+                      .then(() => package_json.no_api ? Promise.resolve() : checkLambdaPolicy(functionName, 'dev', api_info, account, aws_config).then(found => found ? Promise.resolve() : updateAPIGWPolicy(functionName, 'dev', api_info, account, aws_config)));
+                  });
+                });
 
             } else {
+
               console.log(`Uploading to ${args.publish ? colors.cyan(alias) : colors.cyan('$LATEST')}..`);
+
               return lambda.updateFunctionCode({
                   FunctionName: functionName,
                   Publish: !!args.publish,
