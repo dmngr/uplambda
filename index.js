@@ -233,7 +233,7 @@ if (args.v || args.version) {
             depcheck(process.cwd(), {}, unused => {
               try {
                 // console.log('unused:', unused);
-                const deps = Object.keys(unused.missing).filter(dep => dep !== 'aws-sdk' && dep !== 'popper.js');
+                const deps = Object.keys(unused.missing).filter(dep => dep !== 'aws-sdk' && dep !== 'crypto' && dep !== 'popper.js');
                 if (deps.length > 0) {
                   deps.forEach(key => {
                     console.log(colors.red('Missing dep: ', key));
