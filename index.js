@@ -261,7 +261,7 @@ if (args.v || args.version) {
               return Promise.all(Object.keys(package_json.dependencies).map(dep => {
                 try {
                   console.log('dep:', dep);
-                  if (dep == 'aws-sdk') return Promise.resolve();
+                  if (dep == 'aws-sdk' || dep == 'crypto') return Promise.resolve();
                   else return require.resolve(process.cwd() + '/node_modules/' + dep);
 
                 } catch (err) {
@@ -283,9 +283,14 @@ if (args.v || args.version) {
           .then(() => {
             return new Promise(function (resolve, reject) {
               exec('npm update --no-save', (err, stderr) => {
-                if (err) reject(err);
-                if (stderr) reject(stderr);
-                else resolve();
+                if (err) {
+                  console.log("Rejecting...");
+                  reject(err);
+                }
+                if (stderr) {
+                  console.log("Error...", stderr);
+                  resolve();
+                } else resolve();
               });
             });
           })
