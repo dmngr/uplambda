@@ -262,8 +262,12 @@ if (args.v || args.version) {
                 try {
                   console.log('dep:', dep);
                   if (dep == 'aws-sdk' || dep == 'crypto') return Promise.resolve();
-                  else return require.resolve(process.cwd() + '/node_modules/' + dep);
-
+                  else {
+                    if (fs.existsSync(process.cwd() + '/node_modules/' + dep)) {
+                      return Promise.resolve();
+                    }
+                    throw new Error("module_directory_not_found");
+                  }
                 } catch (err) {
                   return Promise.reject('Cannot find module: ' + dep);
                 }
