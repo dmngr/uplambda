@@ -390,7 +390,7 @@ if (args.v || args.version) {
                   },
                   {
                     ParameterKey: 'Role',
-                    ParameterValue: `arn:aws:iam::${account.match(/:(\w+)$/)[1]}:role/${lambda_role}`
+                    ParameterValue: `arn:aws:iam::${args.region || account.match(/:(\w+)$/)[1]}:role/${lambda_role}`
                   }
                 ])
               };
