@@ -42,7 +42,7 @@ let api_info;
 let private_params = [];
 
 const args = minimist(process.argv.slice(2), {
-  boolean: ['logs', 'v', 'version', 's3', 'publish', 'f', 'force', 'account', 'layer']
+  boolean: ['logs', 'v', 'version', 's3', 'publish', 'f', 'force', 'account', 'layer', 'region']
 });
 
 const localPath = 'localLambdas/';
@@ -223,7 +223,7 @@ if (args.v || args.version) {
         const aws_config = {
           accessKeyId: aws_access_key_id,
           secretAccessKey: aws_secret_access_key,
-          region: account.match(/^(.+):/)[1]
+          region: args.region || account.match(/^(.+):/)[1]
         };
 
         const lambda = new AWS.Lambda(aws_config);
