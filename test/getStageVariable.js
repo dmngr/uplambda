@@ -21,7 +21,7 @@ describe('Get Stage Variables module', function() {
     aws_config = {
       accessKeyId: tmp_accounts.test_account.aws_access_key_id,
       secretAccessKey: tmp_accounts.test_account.aws_secret_access_key,
-      region: account.match(/^(.+):/)[1]
+      region: account.region || account.match(/^(.+):/)[1]
     };
   });
 
