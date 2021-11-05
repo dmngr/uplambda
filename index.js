@@ -67,6 +67,7 @@ if (args.v || args.version) {
     });
   }).then(config => {
     let account;
+    let region;
     let bucket;
     let cloudformation_bucket;
     let lambda_role;
@@ -195,6 +196,7 @@ if (args.v || args.version) {
       if (tmp_accounts.length !== 1) return Promise.reject(`Invalid ${homedir}/.uplambda.json. Only one account can be active at a time. Run "uplambda --account --use <your_account_alias>" to choose which account to enable`);
       else {
         account = tmp_accounts[0].account;
+        region = tmp_accounts[0].region;
         bucket = tmp_accounts[0].bucket;
         cloudformation_bucket = tmp_accounts[0].cloudformation_bucket;
         lambda_role = package_json.lambda_role || tmp_accounts[0].lambda_role;
@@ -213,6 +215,7 @@ if (args.v || args.version) {
       if (tmp_accounts.length !== 1) return Promise.reject(`Invalid ${homedir}/.uplambda.json. Only one account can be active at a time. Run "uplambda --account --use <your_account_alias>" to choose which account to enable`);
       else {
         account = tmp_accounts[0].account;
+        region = tmp_accounts[0].region;
         bucket = tmp_accounts[0].bucket;
         cloudformation_bucket = tmp_accounts[0].cloudformation_bucket;
         lambda_role = package_json.lambda_role || tmp_accounts[0].lambda_role;
@@ -224,7 +227,7 @@ if (args.v || args.version) {
       const aws_config = {
         accessKeyId: aws_access_key_id,
         secretAccessKey: aws_secret_access_key,
-        region: account.region || account.match(/^(.+):/)[1]
+        region: region || account.match(/^(.+):/)[1]
       };
 
       const lambda = new AWS.Lambda(aws_config);
@@ -391,7 +394,7 @@ if (args.v || args.version) {
               },
               {
                 ParameterKey: 'Role',
-                ParameterValue: `arn:aws:iam::${account.region || account.match(/:(\w+)$/)[1]}:role/${lambda_role}`
+                ParameterValue: `arn:aws:iam::${region || account.match(/:(\w+)$/)[1]}:role/${lambda_role}`
               }
               ])
             };
