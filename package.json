@@ -1,6 +1,6 @@
 {
   "name": "@deliverymanager/uplambda",
-  "version": "6.7.4",
+  "version": "6.7.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -20,14 +20,14 @@
     "uplambda": "bin/index.js"
   },
   "dependencies": {
-    "aws-sdk": "2.1058.0",
+    "aws-sdk": "2.1082.0",
     "colors": "1.4.0",
     "depcheck": "1.4.3",
     "jszip": "^3.7.1",
     "lodash": "4.17.21",
     "minimist": "^1.2.5",
     "prompt-promise": "1.0.3",
-    "snyk": "^1.827.0"
+    "snyk": "^1.858.0"
   },
   "api": {
     "apiId": "c8kn76s7j8",

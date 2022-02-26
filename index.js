@@ -287,21 +287,6 @@ if (args.v || args.version) {
             return missing ? Promise.reject(`File: ${missing} is missing`) : Promise.resolve();
           }
         })
-        // update packages
-        .then(() => {
-          return new Promise(function (resolve, reject) {
-            exec('npm update --no-save', (err, stderr) => {
-              if (err) {
-                console.log("Rejecting...");
-                reject(err);
-              }
-              if (stderr) {
-                console.log("Error...", stderr);
-                resolve();
-              } else resolve();
-            });
-          });
-        })
         .then(() => getApiInfo())
         // get branches
         .then(_api_info => {
