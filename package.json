@@ -1,13 +1,11 @@
 {
   "name": "@deliverymanager/uplambda",
-  "version": "6.7.7",
+  "version": "6.7.8",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect",
-    "deploy": "npm run prepublish && increase-version --package-json=./package.json && npm publish;"
+    "deploy": "increase-version --package-json=./package.json && npm publish;"
   },
   "repository": {
     "type": "git",
@@ -26,8 +24,7 @@
     "jszip": "^3.10.0",
     "lodash": "4.17.21",
     "minimist": "^1.2.6",
-    "prompt-promise": "1.0.3",
-    "snyk": "^1.940.0"
+    "prompt-promise": "1.0.3"
   },
   "api": {
     "apiId": "c8kn76s7j8",
@@ -37,6 +34,5 @@
     "method": "POST"
   },
   "lambdaAlias": "master",
-  "snyk": true,
   "no_api": true
 }
