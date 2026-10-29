@@ -1,6 +1,9 @@
 {
   "name": "@deliverymanager/uplambda",
   "version": "6.7.9",
+  "publishConfig": {
+    "access": "restricted"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
